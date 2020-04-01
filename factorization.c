@@ -6,16 +6,39 @@
 /*   By: ina <ina@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/01 21:57:50 by ina               #+#    #+#             */
-/*   Updated: 2020/04/02 01:15:01 by ina              ###   ########.fr       */
+/*   Updated: 2020/04/02 02:41:29 by ina              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
+int				ft_is_invalid_number(const char *number)
+{
+	const char	max[] = "4294967295";
+	int			idx;
+	int			len;
+
+	idx = 0;
+	len = 0;
+	while (number[len])
+		len++;
+	if (len == 1)
+		return (number[idx] < '2');
+	if (len < 10)
+		return (0);
+	while (idx < len)
+	{
+		if (number[idx] > idx[max])
+			return (1);
+		idx++;
+	}
+	return (0);
+}
+
 unsigned int	ft_atoi(const char *str)
 {
-	int idx;
-	unsigned int num;
+	int				idx;
+	unsigned int	num;
 
 	num = 0;
 	idx = 0;
@@ -30,7 +53,7 @@ unsigned int	ft_atoi(const char *str)
 		write(2, "Error : please enter number only\n", 33);
 		return (0);
 	}
-	if (idx > 9 || num < 2)
+	if (ft_is_invalid_number(str) || num == 0)
 	{
 		write(2, "Error : Please enter numbers form 2 to 2^32 - 1\n", 48);
 		return (0);
@@ -42,23 +65,25 @@ void			ft_putnbr(unsigned int num)
 {
 	char c;
 
-	if (num > 10)
+	if (num >= 10)
 		ft_putnbr(num / 10);
 	c = '0' + (num % 10);
 	write(1, &c, 1);
 }
 
-void			ft_print_primes(unsigned int *primes, unsigned int size)
+void			ft_factorization(unsigned int target)
 {
 	unsigned int	idx;
 	int				is_printed;
 
-	is_printed = 0;
 	idx = 2;
-	while (idx < size)
+	is_printed = 0;
+	while (idx <= 65535 && target > 1)
 	{
-		if (primes[idx])
+		if (target % idx == 0)
 		{
+			while (!(target % idx))
+				target /= idx;
 			if (is_printed)
 				write(1, " ", 1);
 			is_printed = 1;
@@ -66,27 +91,13 @@ void			ft_print_primes(unsigned int *primes, unsigned int size)
 		}
 		idx++;
 	}
-	write(1, "\n", 1);
-}
-
-void			ft_factorization(unsigned int target)
-{
-	unsigned int idx;
-	unsigned int primes[65536];
-
-	idx = 2;
-	while (idx <= 65535 && target > 1)
+	if (target != 1)
 	{
-		primes[idx] = 0;
-		if (target % idx == 0)
-		{
-			while (!(target % idx))
-				target /= idx;
-			primes[idx] = 1;
-		}
-		idx++;
+		if (is_printed)
+			write(1, " ", 1);
+		ft_putnbr(target);
 	}
-	ft_print_primes(primes, idx);
+	write(1, "\n", 1);
 }
 
 int				main(int argc, char *argv[])
