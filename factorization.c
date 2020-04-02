@@ -6,7 +6,7 @@
 /*   By: ina <ina@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/01 21:57:50 by ina               #+#    #+#             */
-/*   Updated: 2020/04/02 02:41:29 by ina              ###   ########.fr       */
+/*   Updated: 2020/04/02 15:54:22 by ina              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ unsigned int	ft_atoi(const char *str)
 	}
 	if (ft_is_invalid_number(str) || num == 0)
 	{
-		write(2, "Error : Please enter numbers form 2 to 2^32 - 1\n", 48);
+		write(2, "Error : Please enter numbers between 2 to 2^32 - 1\n", 48);
 		return (0);
 	}
 	return (num);
