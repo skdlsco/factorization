@@ -6,7 +6,7 @@
 /*   By: ina <ina@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/01 21:57:50 by ina               #+#    #+#             */
-/*   Updated: 2020/04/02 15:54:22 by ina              ###   ########.fr       */
+/*   Updated: 2020/04/02 16:21:42 by ina              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,24 @@
 int				ft_is_invalid_number(const char *number)
 {
 	const char	max[] = "4294967295";
+	int			zero_size;
 	int			idx;
 	int			len;
 
-	idx = 0;
 	len = 0;
-	while (number[len])
+	zero_size = 0;
+	while (number[zero_size] == '0')
+		zero_size++;
+	while (number[zero_size + len])
 		len++;
 	if (len == 1)
-		return (number[idx] < '2');
+		return (number[zero_size] < '2');
 	if (len < 10)
 		return (0);
+	idx = 0;
 	while (idx < len)
 	{
-		if (number[idx] > idx[max])
+		if (number[zero_size + idx] > max[idx])
 			return (1);
 		idx++;
 	}
@@ -50,12 +54,12 @@ unsigned int	ft_atoi(const char *str)
 	}
 	if (str[idx])
 	{
-		write(2, "Error : please enter number only\n", 33);
+		write(2, "Error : please input number only\n", 33);
 		return (0);
 	}
-	if (ft_is_invalid_number(str) || num == 0)
+	if (ft_is_invalid_number(str) || num <= 1)
 	{
-		write(2, "Error : Please enter numbers between 2 to 2^32 - 1\n", 48);
+		write(2, "Error : Please input numbers between 2 to 2^32 - 1\n", 51);
 		return (0);
 	}
 	return (num);
